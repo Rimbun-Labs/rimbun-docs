@@ -1,0 +1,5144 @@
+{
+  "components": {
+    "schemas": {
+      "NewUserRequest": {
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "authProviderId": {
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authProviderType": {
+            "type": "string"
+          },
+          "age": {
+            "type": "number"
+          },
+          "location": {}
+        },
+        "type": "object",
+        "required": [
+          "displayName",
+          "authProviderId",
+          "email"
+        ]
+      },
+      "UpdateUserRequest": {
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "profilePictureURL": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CreateCategoryRequest": {
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ]
+      },
+      "VisibilityRules": {
+        "properties": {
+          "showToLevels": {
+            "items": {
+              "enum": [
+                "ALL",
+                "BEGINNER",
+                "INTERMEDIATE",
+                "ADVANCED"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "showToLevels"
+        ]
+      },
+      "QuestionOptionMetadata": {
+        "properties": {
+          "profileType": {
+            "maximum": 100,
+            "type": "integer",
+            "minimum": 0
+          },
+          "points": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "confidenceScore": {
+            "maximum": 100,
+            "type": "integer",
+            "minimum": 0
+          },
+          "decisionStyle": {
+            "maximum": 100,
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "profileType",
+          "points",
+          "confidenceScore",
+          "decisionStyle"
+        ]
+      },
+      "QuestionOption": {
+        "properties": {
+          "optionLabel": {
+            "type": "string"
+          },
+          "optionMetadata": {
+            "$ref": "#/components/schemas/QuestionOptionMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "optionLabel"
+        ]
+      },
+      "SliderConfig": {
+        "properties": {
+          "min": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "max": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "step": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min",
+          "max",
+          "step",
+          "unit",
+          "format"
+        ]
+      },
+      "CreateQuestionRequest": {
+        "properties": {
+          "categoryId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "questionText": {
+            "type": "string"
+          },
+          "whyWeAsk": {
+            "type": "string"
+          },
+          "questionType": {
+            "enum": [
+              "multiple_choice",
+              "text",
+              "select",
+              "boolean",
+              "number",
+              "slider"
+            ],
+            "type": "string"
+          },
+          "visibilityRules": {
+            "$ref": "#/components/schemas/VisibilityRules"
+          },
+          "sliderConfig": {
+            "$ref": "#/components/schemas/SliderConfig"
+          }
+        },
+        "type": "object",
+        "required": [
+          "questionText",
+          "questionType",
+          "visibilityRules"
+        ]
+      },
+      "BulkQuestionOptionsRequest": {
+        "properties": {
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/Array"
+            },
+            "maxItems": 10,
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "options"
+        ]
+      },
+      "BulkQuestionRequest": {
+        "properties": {
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/Array"
+            },
+            "minItems": 0,
+            "type": "array"
+          },
+          "categoryId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "questionText": {
+            "type": "string"
+          },
+          "whyWeAsk": {
+            "type": "string"
+          },
+          "questionType": {
+            "enum": [
+              "multiple_choice",
+              "text",
+              "select",
+              "boolean",
+              "number",
+              "slider"
+            ],
+            "type": "string"
+          },
+          "visibilityRules": {
+            "$ref": "#/components/schemas/VisibilityRules"
+          },
+          "sliderConfig": {
+            "$ref": "#/components/schemas/SliderConfig"
+          }
+        },
+        "type": "object",
+        "required": [
+          "options",
+          "questionText",
+          "questionType",
+          "visibilityRules"
+        ]
+      },
+      "BulkQuestionsUploadRequest": {
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/CreateCategoryRequest"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/Array"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "questions"
+        ]
+      },
+      "QuestionListResponseDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "questionText": {
+            "type": "string"
+          },
+          "whyWeAsk": {
+            "type": "string"
+          },
+          "questionType": {
+            "enum": [
+              "multiple_choice",
+              "text",
+              "select",
+              "boolean",
+              "number",
+              "slider"
+            ],
+            "type": "string"
+          },
+          "sliderConfig": {
+            "$ref": "#/components/schemas/SliderConfig"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "questionText",
+          "questionType"
+        ]
+      },
+      "QuestionFilterRequest": {
+        "properties": {
+          "categoryName": {
+            "type": "string"
+          },
+          "visibilityLevel": {
+            "enum": [
+              "ALL",
+              "BEGINNER",
+              "INTERMEDIATE",
+              "ADVANCED"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "categoryName"
+        ]
+      },
+      "CreateResponseGroupRequest": {
+        "properties": {
+          "userId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "questionnaireType": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userId",
+          "questionnaireType"
+        ]
+      },
+      "ResponseGroupDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "questionnaireType": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "questionnaireType",
+          "createdAt"
+        ]
+      },
+      "SaveUserResponseRequest": {
+        "properties": {
+          "responseGroupId": {
+            "format": "uuid",
+            "type": "string",
+            "minLength": 1
+          },
+          "questionId": {
+            "format": "uuid",
+            "type": "string",
+            "minLength": 1
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "metadata": {}
+        },
+        "type": "object",
+        "required": [
+          "responseGroupId",
+          "questionId",
+          "answer"
+        ]
+      },
+      "UserResponseDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "responseGroupId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "questionId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "responseGroupId",
+          "questionId",
+          "answer",
+          "createdAt"
+        ]
+      },
+      "BulkUserResponsesRequest": {
+        "properties": {
+          "responseGroupId": {
+            "format": "uuid",
+            "type": "string",
+            "minLength": 1
+          },
+          "responses": {
+            "items": {
+              "$ref": "#/components/schemas/Array"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "responseGroupId",
+          "responses"
+        ]
+      },
+      "UserResponseItem": {
+        "properties": {
+          "questionId": {
+            "format": "uuid",
+            "type": "string",
+            "minLength": 1
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "metadata": {}
+        },
+        "type": "object",
+        "required": [
+          "questionId",
+          "answer"
+        ]
+      },
+      "SaveUserResponsesBulkRequest": {
+        "properties": {
+          "responses": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "responses"
+        ]
+      },
+      "CategoryDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "QuestionOptionDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ]
+      },
+      "AnswerDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "value": {},
+          "selectedOption": {
+            "$ref": "#/components/schemas/QuestionOptionDto"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ]
+      },
+      "QuestionWithAnswerDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "questionType": {
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CategoryDto"
+          },
+          "answer": {
+            "$ref": "#/components/schemas/AnswerDto"
+          },
+          "optionMetadata": {}
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "questionType",
+          "category",
+          "answer"
+        ]
+      },
+      "ResponseGroupQuestionsAnswersDto": {
+        "properties": {
+          "responseGroupId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "questionsWithAnswers": {
+            "items": {
+              "$ref": "#/components/schemas/Array"
+            },
+            "type": "array"
+          },
+          "dataQuality": {}
+        },
+        "type": "object",
+        "required": [
+          "responseGroupId",
+          "questionsWithAnswers"
+        ]
+      },
+      "ResumeInfoDto": {
+        "properties": {
+          "sessionId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "resumeIndex": {
+            "type": "number"
+          },
+          "progressPercentage": {
+            "type": "number"
+          },
+          "totalQuestions": {
+            "type": "number"
+          },
+          "answeredQuestions": {
+            "type": "number"
+          },
+          "isCompleted": {
+            "type": "boolean"
+          },
+          "nextQuestionId": {
+            "type": "string"
+          },
+          "nextCategoryName": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sessionId",
+          "resumeIndex",
+          "progressPercentage",
+          "totalQuestions",
+          "answeredQuestions",
+          "isCompleted"
+        ]
+      },
+      "SendMessageRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "responseGroupId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ]
+      },
+      "ChatMessageDto": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "isAIResponse": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "metadata": {}
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "content",
+          "isAIResponse",
+          "createdAt"
+        ]
+      },
+      "ChatConversationDto": {
+        "properties": {
+          "userId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "responseGroupId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "userId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ChatResponseDto": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "metadata": {}
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ]
+      },
+      "UpdateSubscriptionRequest": {
+        "properties": {
+          "tier": {
+            "enum": [
+              "free",
+              "premium",
+              "business"
+            ],
+            "type": "string"
+          },
+          "billingPeriod": {
+            "enum": [
+              "monthly",
+              "yearly"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tier"
+        ]
+      },
+      "ExistingProductInput": {
+        "properties": {
+          "productId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "currentBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "outstandingBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "creditLimit": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "loanAmount": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyPayment": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "openedDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          },
+          "lastUsedDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          },
+          "metadata": {}
+        },
+        "type": "object",
+        "required": [
+          "productId"
+        ]
+      },
+      "AddExistingProductRequest": {
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/ExistingProductInput"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product"
+        ]
+      },
+      "UpdateExistingProductRequest": {
+        "properties": {
+          "productId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "currentBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "outstandingBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "creditLimit": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "loanAmount": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyPayment": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "lastUsedDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productId"
+        ]
+      },
+      "AddExistingInsuranceProductRequest": {
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "sumAssured": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "premiumMonthly": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "cashValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productId"
+        ]
+      },
+      "UpdateExistingInsuranceProductRequest": {
+        "properties": {
+          "sumAssured": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "premiumMonthly": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "cashValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AddExistingPositionRequest": {
+        "properties": {
+          "shareClassId": {
+            "type": "string"
+          },
+          "currentValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "units": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyContribution": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "shareClassId"
+        ]
+      },
+      "UpdateExistingPositionRequest": {
+        "properties": {
+          "currentValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "units": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyContribution": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BankStatementTransactionDtoIngest": {
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "credit",
+              "debit"
+            ]
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "explicit",
+              "inferred",
+              "not_disclosed"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "description",
+          "amount",
+          "type"
+        ]
+      },
+      "BankStatementSummaryDtoIngest": {
+        "properties": {
+          "periodStart": {
+            "type": "string"
+          },
+          "periodEnd": {
+            "type": "string"
+          },
+          "openingBalance": {
+            "type": "number"
+          },
+          "closingBalance": {
+            "type": "number"
+          },
+          "totalCredits": {
+            "type": "number"
+          },
+          "totalDebits": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BankStatementResponseDtoIngest": {
+        "properties": {
+          "transactions": {
+            "items": {
+              "$ref": "#/components/schemas/Array"
+            },
+            "type": "array"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/BankStatementSummaryDtoIngest"
+          },
+          "accountIdentifier": {
+            "type": "object"
+          },
+          "fees": {
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "required": [
+          "transactions"
+        ]
+      },
+      "PartnerSubmitStatementRequestDto": {
+        "properties": {
+          "providerAccountId": {
+            "type": "string"
+          },
+          "statementId": {
+            "type": "string"
+          },
+          "bankStatement": {
+            "$ref": "#/components/schemas/BankStatementResponseDtoIngest"
+          }
+        },
+        "type": "object",
+        "required": [
+          "providerAccountId",
+          "statementId",
+          "bankStatement"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "InvestLearn API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/recommendation/response-group/{id}": {
+      "get": {
+        "operationId": "RecommendationController.getRecommendations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get recommendations",
+        "tags": [
+          "Recommendation"
+        ]
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "operationId": "AuthController.register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUserRequest"
+              }
+            }
+          },
+          "description": "NewUserRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/BaseResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BaseResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Register a new user",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/users/whoami": {
+      "get": {
+        "operationId": "AuthController.whoami",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Auth context returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Return the authenticated user's identity (diagnostics)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/users/me/{authProviderId}": {
+      "get": {
+        "operationId": "AuthController.getUserByAuthProviderId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProviderId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/BaseResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BaseResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get user details by auth provider ID",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/v1/users/me": {
+      "delete": {
+        "operationId": "AuthController.deleteMyAccount",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Account deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "summary": "Delete user account and all associated data",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Permanently deletes the authenticated user's account and all associated data (GDPR right to be forgotten). This action cannot be undone."
+      },
+      "put": {
+        "operationId": "AuthController.updateMyProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          },
+          "description": "UpdateUserRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/BaseResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BaseResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Bad request - invalid data or email already in use"
+          },
+          "401": {
+            "description": "Unauthorized - user not authenticated"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "summary": "Update current user's profile",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Updates the authenticated user's profile information. Only allows updating displayName, phone, email, and profilePictureURL."
+      }
+    },
+    "/api/v1/users/me/export": {
+      "get": {
+        "operationId": "AuthController.exportMyData",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "User data export"
+          }
+        },
+        "summary": "Export all user data",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Downloads all user data in JSON format for GDPR compliance (right to data portability)"
+      }
+    },
+    "/api/v1/questionnaire/categories": {
+      "post": {
+        "operationId": "QuestionnaireController.createCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryRequest"
+              }
+            }
+          },
+          "description": "CreateCategoryRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCategoryRequest"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Create a new question category",
+        "tags": [
+          "Questionnaire"
+        ]
+      }
+    },
+    "/api/v1/questionnaire/questions": {
+      "post": {
+        "operationId": "QuestionnaireController.createQuestion",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuestionRequest"
+              }
+            }
+          },
+          "description": "CreateQuestionRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQuestionRequest"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Create a new question",
+        "tags": [
+          "Questionnaire"
+        ]
+      },
+      "get": {
+        "operationId": "QuestionnaireController.getAllQuestions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get all questions",
+        "tags": [
+          "Questionnaire"
+        ],
+        "description": "Returns all questions with their categories and options"
+      }
+    },
+    "/api/v1/questionnaire/{id}/options": {
+      "post": {
+        "operationId": "QuestionnaireController.addQuestionOptions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkQuestionOptionsRequest"
+              }
+            }
+          },
+          "description": "BulkQuestionOptionsRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkQuestionOptionsRequest"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Add options to a question",
+        "tags": [
+          "Questionnaire"
+        ]
+      }
+    },
+    "/api/v1/questionnaire/bulk": {
+      "post": {
+        "operationId": "QuestionnaireController.bulkCreateQuestions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkQuestionsUploadRequest"
+              }
+            }
+          },
+          "description": "BulkQuestionsUploadRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkQuestionsUploadRequest"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Bulk upload questions with category",
+        "tags": [
+          "Questionnaire"
+        ],
+        "description": "Create multiple questions with their options under a category"
+      }
+    },
+    "/api/v1/questionnaire/questions/category": {
+      "post": {
+        "operationId": "QuestionnaireController.filterQuestions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionFilterRequest"
+              }
+            }
+          },
+          "description": "QuestionFilterRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/QuestionListResponseDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Filter questions",
+        "tags": [
+          "Questionnaire"
+        ],
+        "description": "Filter questions by categories and visibility level"
+      }
+    },
+    "/api/v1/user-responses/session": {
+      "post": {
+        "operationId": "UserResponseController.createResponseGroup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateResponseGroupRequest"
+              }
+            }
+          },
+          "description": "CreateResponseGroupRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseGroupDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Create a new user response group session",
+        "tags": [
+          "User Response"
+        ]
+      }
+    },
+    "/api/v1/user-responses/user/{firebaseId}/sessions": {
+      "get": {
+        "operationId": "UserResponseController.getUserResponseGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "firebaseId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ResponseGroupDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get all response groups for a user",
+        "tags": [
+          "User Response"
+        ]
+      }
+    },
+    "/api/v1/user-responses/session/{id}": {
+      "get": {
+        "operationId": "UserResponseController.getResponseGroupById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseGroupDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get a response group by ID",
+        "tags": [
+          "User Response"
+        ]
+      }
+    },
+    "/api/v1/user-responses/answer": {
+      "post": {
+        "operationId": "UserResponseController.saveUserResponse",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveUserResponseRequest"
+              }
+            }
+          },
+          "description": "SaveUserResponseRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Save a user's response to a question",
+        "tags": [
+          "User Response"
+        ]
+      }
+    },
+    "/api/v1/user-responses/answers/bulk": {
+      "post": {
+        "operationId": "UserResponseController.saveUserResponsesBulk",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveUserResponsesBulkRequest"
+              }
+            }
+          },
+          "description": "SaveUserResponsesBulkRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponseDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Save multiple user responses at once",
+        "tags": [
+          "User Response"
+        ]
+      }
+    },
+    "/api/v1/user-responses/session/{id}/questions-answers": {
+      "get": {
+        "operationId": "UserResponseController.getQuestionsAndAnswers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseGroupQuestionsAnswersDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get all questions and answers for a response group",
+        "tags": [
+          "User Response"
+        ]
+      }
+    },
+    "/api/v1/user-responses/session/{id}/resume": {
+      "get": {
+        "operationId": "UserResponseController.getResumeInfo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumeInfoDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get resume information for an incomplete session",
+        "tags": [
+          "User Response"
+        ],
+        "description": "Returns progress information and resume point for incomplete assessment sessions. Returns 404 for completed sessions."
+      }
+    },
+    "/api/v1/user-responses/session/{id}/complete": {
+      "post": {
+        "operationId": "UserResponseController.completeSession",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Mark a session as completed",
+        "tags": [
+          "User Response"
+        ],
+        "description": "Marks an assessment session as completed. This triggers score calculation and makes results available."
+      }
+    },
+    "/api/v1/assessment/response-group/{id}/answers": {
+      "get": {
+        "operationId": "AssessmentController.getAnsweredQuestionsByResponseGroupId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseGroupQuestionsAnswersDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get all answered questions for a response group",
+        "tags": [
+          "Assessment"
+        ]
+      }
+    },
+    "/api/v1/assessment/response-group/{id}/category/{categoryName}/answers": {
+      "get": {
+        "operationId": "AssessmentController.getAnsweredQuestionsByCategory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "categoryName",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseGroupQuestionsAnswersDto"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get answered questions for a specific category",
+        "tags": [
+          "Assessment"
+        ]
+      }
+    },
+    "/api/v1/assessment/response-group/{id}/score": {
+      "get": {
+        "operationId": "AssessmentController.getAssessmentResults",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get assessment results for a completed session",
+        "tags": [
+          "Assessment"
+        ],
+        "description": "Returns assessment results only for completed sessions. Returns 404 for incomplete sessions. Uses multi-layered checks to handle race conditions."
+      }
+    },
+    "/api/v1/assessment/user/latest": {
+      "get": {
+        "operationId": "AssessmentController.getLatestAssessmentResultsByUserId",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get latest assessment results for a user",
+        "tags": [
+          "Assessment"
+        ]
+      }
+    },
+    "/api/v1/assessment/user/all": {
+      "get": {
+        "operationId": "AssessmentController.getAllAssessmentResultsByUserId",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get all assessment results for a user",
+        "tags": [
+          "Assessment"
+        ]
+      }
+    },
+    "/api/v1/quiz/progress": {
+      "get": {
+        "operationId": "QuizController.getProgress",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "assetClass",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get quiz progress",
+        "tags": [
+          "Quiz"
+        ]
+      }
+    },
+    "/api/v1/quiz/{assetClass}": {
+      "get": {
+        "operationId": "QuizController.getQuiz",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assetClass",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "responseGroupId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get quiz questions for an asset class",
+        "tags": [
+          "Quiz"
+        ]
+      }
+    },
+    "/api/v1/quiz/validate": {
+      "post": {
+        "operationId": "QuizController.validateAnswer",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "responseGroupId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Validate a quiz answer",
+        "tags": [
+          "Quiz"
+        ]
+      }
+    },
+    "/api/v1/quiz/submit": {
+      "post": {
+        "operationId": "QuizController.submitQuiz",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Submit a quiz attempt",
+        "tags": [
+          "Quiz"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController.checkHealth",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/HealthResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HealthResponse"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": ""
+          },
+          "503": {
+            "description": "System is unhealthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Check overall system health",
+        "tags": [
+          "Health"
+        ],
+        "description": "Returns the health status of the system including database metrics"
+      }
+    },
+    "/health/db": {
+      "get": {
+        "operationId": "HealthController.checkDatabaseHealth",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "healthy",
+                        "unhealthy"
+                      ]
+                    },
+                    "latency": {
+                      "type": "number",
+                      "description": "Database query latency in milliseconds"
+                    },
+                    "metrics": {
+                      "type": "object",
+                      "properties": {
+                        "totalConnections": {
+                          "type": "number"
+                        },
+                        "activeConnections": {
+                          "type": "number"
+                        },
+                        "idleConnections": {
+                          "type": "number"
+                        },
+                        "waitingClients": {
+                          "type": "number"
+                        },
+                        "maxConnections": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Database is healthy"
+          },
+          "503": {
+            "description": "Database is unhealthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Check database health",
+        "tags": [
+          "Health"
+        ],
+        "description": "Returns detailed database health metrics and connection pool status"
+      }
+    },
+    "//": {
+      "head": {
+        "operationId": "RootController.root",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "service": {
+                      "type": "string",
+                      "example": "investlearn-api"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "API is available"
+          }
+        },
+        "summary": "Root endpoint",
+        "tags": [
+          "Root"
+        ],
+        "description": "Simple endpoint for health checks and API availability. Returns 200 OK."
+      },
+      "get": {
+        "operationId": "RootController.root",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "service": {
+                      "type": "string",
+                      "example": "investlearn-api"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "API is available"
+          }
+        },
+        "summary": "Root endpoint",
+        "tags": [
+          "Root"
+        ],
+        "description": "Simple endpoint for health checks and API availability. Returns 200 OK."
+      }
+    },
+    "/api/v1/chat/{userId}/send": {
+      "post": {
+        "operationId": "ChatController.sendMessage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequest"
+              }
+            }
+          },
+          "description": "SendMessageRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Send a message and get AI response with behavioral analysis",
+        "tags": [
+          "Chat"
+        ],
+        "description": "Send a message to the AI assistant and receive a personalized response based on user's behavioral patterns, learning progression, assessment and recommendations"
+      }
+    },
+    "/api/v1/chat/{userId}/messages": {
+      "get": {
+        "operationId": "ChatController.getRecentMessages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "responseGroupId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get recent chat messages",
+        "tags": [
+          "Chat"
+        ],
+        "description": "Retrieve recent chat messages for a user, optionally filtered by response group"
+      }
+    },
+    "/api/v1/chat/{userId}/conversation": {
+      "get": {
+        "operationId": "ChatController.getConversationSummary",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "responseGroupId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get conversation summary",
+        "tags": [
+          "Chat"
+        ],
+        "description": "Get a complete conversation summary including all messages and metadata"
+      },
+      "delete": {
+        "operationId": "ChatController.clearConversation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "responseGroupId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Clear conversation history",
+        "tags": [
+          "Chat"
+        ],
+        "description": "Delete all chat messages for a user, optionally filtered by response group"
+      }
+    },
+    "/api/v1/chat/{userId}/debug-response-group": {
+      "get": {
+        "operationId": "ChatController.debugResponseGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Debug response group data",
+        "tags": [
+          "Chat"
+        ],
+        "description": "Test endpoint to debug response group data retrieval"
+      }
+    },
+    "/api/v1/chat/health/behavioral-analysis": {
+      "get": {
+        "operationId": "ChatController.behavioralAnalysisHealth",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Health check for behavioral analysis system",
+        "tags": [
+          "Chat"
+        ],
+        "description": "Monitor the health and performance of the behavioral analysis system"
+      }
+    },
+    "/api/v1/asset-analyzer/compare": {
+      "get": {
+        "operationId": "AssetAnalyzerController.compareAssets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "symbols",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Compare assets",
+        "tags": [
+          "Asset Analyzer"
+        ]
+      }
+    },
+    "/api/v1/asset-analyzer/search": {
+      "get": {
+        "operationId": "AssetAnalyzerController.searchAssets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Search assets",
+        "tags": [
+          "Asset Analyzer"
+        ]
+      }
+    },
+    "/api/v1/asset-analyzer/{symbol}": {
+      "get": {
+        "operationId": "AssetAnalyzerController.analyzeAsset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "symbol",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Analyze asset",
+        "tags": [
+          "Asset Analyzer"
+        ]
+      }
+    },
+    "/api/v1/asset-analyzer/{symbol}/educational": {
+      "get": {
+        "operationId": "AssetAnalyzerController.analyzeAssetEducational",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "symbol",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "responseGroupId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Analyze asset educational",
+        "tags": [
+          "Asset Analyzer"
+        ]
+      }
+    },
+    "/api/v1/spending/overview": {
+      "post": {
+        "operationId": "SpendingController.saveSpendingOverview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Save spending overview data for a user",
+        "tags": [
+          "Spending"
+        ]
+      },
+      "get": {
+        "operationId": "SpendingController.getSpendingOverview",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get spending analysis for a user",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/from-statement": {
+      "post": {
+        "operationId": "SpendingController.applyBankStatementFromDocument",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Apply parsed bank statement to spending",
+        "tags": [
+          "Spending"
+        ],
+        "description": "Accepts the bankStatement object from POST /documents/parse. Derives monthly spending and emergency fund, saves to user spending overview. Returns derived values and optional suggested monthly income for display."
+      }
+    },
+    "/api/v1/spending/categories": {
+      "post": {
+        "operationId": "SpendingController.addSpendingCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Add a spending category for a user",
+        "tags": [
+          "Spending"
+        ]
+      },
+      "get": {
+        "operationId": "SpendingController.getSpendingCategories",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get all spending categories for a user",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/categories/{categoryId}": {
+      "put": {
+        "operationId": "SpendingController.updateSpendingCategory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Update a spending category",
+        "tags": [
+          "Spending"
+        ]
+      },
+      "delete": {
+        "operationId": "SpendingController.deleteSpendingCategory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Delete a spending category",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/recommendations": {
+      "get": {
+        "operationId": "SpendingController.getSpendingRecommendations",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get comprehensive spending recommendations",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/cash-flow-projections": {
+      "get": {
+        "operationId": "SpendingController.getCashFlowProjections",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get cash flow projections for the next 5 years",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/periods": {
+      "post": {
+        "operationId": "SpendingController.saveSpendingPeriod",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Save spending data for a specific month",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/history": {
+      "get": {
+        "operationId": "SpendingController.getSpendingHistory",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startYear",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startMonth",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endYear",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endMonth",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get spending history with trends",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/spending/trends": {
+      "get": {
+        "operationId": "SpendingController.getSpendingTrends",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "period",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get spending trends analysis",
+        "tags": [
+          "Spending"
+        ]
+      }
+    },
+    "/api/v1/subscription/me": {
+      "get": {
+        "operationId": "SubscriptionController.getMySubscription",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized - user not authenticated"
+          }
+        },
+        "summary": "Get current user's subscription",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Returns subscription tier, features, and limits for the authenticated user"
+      },
+      "put": {
+        "operationId": "SubscriptionController.updateMySubscription",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionRequest"
+              }
+            }
+          },
+          "description": "UpdateSubscriptionRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Bad request - invalid tier or missing required fields"
+          },
+          "401": {
+            "description": "Unauthorized - user not authenticated"
+          }
+        },
+        "summary": "Update current user's subscription",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Updates the subscription tier for the authenticated user. Creates a subscription record if one doesn't exist."
+      }
+    },
+    "/api/v1/bank/customers": {
+      "get": {
+        "operationId": "BankController.getCustomers",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get customers list for triage",
+        "tags": [
+          "Bank"
+        ],
+        "description": "Returns paginated users for bank triage views. Optional `q` filters by display name or email (case-insensitive); minimum two non-wildcard characters after trim."
+      }
+    },
+    "/api/v1/bank/customers/fi-queue-buckets": {
+      "get": {
+        "operationId": "BankController.getCustomerFiQueueBuckets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeBookSummary",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get queue buckets for customer list",
+        "tags": [
+          "Bank"
+        ],
+        "description": "Computes backend queue bucket fields from enrichment coverage for triage list rendering. When `includeBookSummary=true`, `meta.bookSummary` contains aggregates; see `scope` — ranked mode counts the candidate pool (not necessarily all users)."
+      }
+    },
+    "/api/v1/bank/customers/{userId}/fi-decision": {
+      "get": {
+        "operationId": "BankController.getCustomerFiDecision",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get FI decision summary for selected customer",
+        "tags": [
+          "Bank"
+        ],
+        "description": "Returns queue bucket and sufficiency summary for a selected customer."
+      }
+    },
+    "/api/v1/bank/customers/{userId}/fi-decision/explain": {
+      "get": {
+        "operationId": "BankController.getCustomerFiDecisionExplain",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get FI decision explain payload for selected customer",
+        "tags": [
+          "Bank"
+        ],
+        "description": "Returns explain drivers and suppression metadata for a selected customer FI decision."
+      }
+    },
+    "/api/v1/bank/customers/insights": {
+      "get": {
+        "operationId": "BankController.getCustomerInsights",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Customer insights retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized - authentication required"
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions"
+          }
+        },
+        "summary": "Get aggregated customer insights for bank",
+        "tags": [
+          "Bank"
+        ],
+        "description": "Returns comprehensive analytics including risk profiles, financial health, engagement metrics, and customer segments. Requires bank admin, bank analyst, admin, or super admin role. Super admins can view all customers across all organizations."
+      }
+    },
+    "/api/v1/bank/permissions/check": {
+      "get": {
+        "operationId": "BankController.checkPermission",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Permission check successful"
+          },
+          "401": {
+            "description": "Unauthorized - authentication required"
+          }
+        },
+        "summary": "Check if user has permission to access bank analytics",
+        "tags": [
+          "Bank"
+        ],
+        "description": "Lightweight endpoint that only checks user role. Returns permission status without fetching any analytics data. Much faster than calling the insights endpoint."
+      }
+    },
+    "/api/v1/goals": {
+      "post": {
+        "operationId": "GoalController.createGoal",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Create a new financial goal",
+        "tags": [
+          "Goal"
+        ]
+      },
+      "get": {
+        "operationId": "GoalController.getUserGoals",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "includeInactive",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get all goals for a user",
+        "tags": [
+          "Goal"
+        ]
+      }
+    },
+    "/api/v1/goals/{goalId}/resilience": {
+      "get": {
+        "operationId": "GoalController.getGoalResilience",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get resilience (insurance hedge) recommendation for a goal",
+        "tags": [
+          "Goal"
+        ]
+      }
+    },
+    "/api/v1/goals/{goalId}": {
+      "get": {
+        "operationId": "GoalController.getGoalById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get a specific goal by ID",
+        "tags": [
+          "Goal"
+        ]
+      },
+      "put": {
+        "operationId": "GoalController.updateGoal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Update a goal",
+        "tags": [
+          "Goal"
+        ]
+      },
+      "delete": {
+        "operationId": "GoalController.deleteGoal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Delete a goal (soft delete)",
+        "tags": [
+          "Goal"
+        ]
+      }
+    },
+    "/api/v1/goals/{goalId}/progress": {
+      "get": {
+        "operationId": "GoalController.getGoalProgressHistory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startYear",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startMonth",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endYear",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endMonth",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get progress history for a goal with trends",
+        "tags": [
+          "Goal"
+        ]
+      }
+    },
+    "/api/v1/goals/simulate-strategy": {
+      "post": {
+        "operationId": "GoalController.simulateStrategy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Simulate goal allocation strategy with custom budget",
+        "tags": [
+          "Goal"
+        ]
+      }
+    },
+    "/api/v1/goal-families": {
+      "get": {
+        "operationId": "GoalFamilyController.getFamilies",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get goal family summaries for a user",
+        "tags": [
+          "Goal Family"
+        ]
+      }
+    },
+    "/api/v1/goal-families/{familyId}/board": {
+      "get": {
+        "operationId": "GoalFamilyController.getFamilyBoard",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "familyId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get board data for a goal family",
+        "tags": [
+          "Goal Family"
+        ]
+      }
+    },
+    "/api/v1/goal-families/mapping": {
+      "get": {
+        "operationId": "GoalFamilyController.getMapping",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get goal type to family mapping information",
+        "tags": [
+          "Goal Family"
+        ]
+      }
+    },
+    "/api/v1/banking/profile/": {
+      "get": {
+        "operationId": "BankingProfileController.getProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get user's banking profile",
+        "tags": [
+          "Banking Profile"
+        ],
+        "description": "Returns user's existing banking products with full product details"
+      }
+    },
+    "/api/v1/banking/profile/products": {
+      "post": {
+        "operationId": "BankingProfileController.addProduct",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExistingProductRequest"
+              }
+            }
+          },
+          "description": "AddExistingProductRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Bad request - product not found or already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Add existing product to profile",
+        "tags": [
+          "Banking Profile"
+        ],
+        "description": "Adds a banking product to user's existing products. User only needs to provide productId and currentBalance."
+      }
+    },
+    "/api/v1/banking/profile/products/{productId}": {
+      "put": {
+        "operationId": "BankingProfileController.updateProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExistingProductRequest"
+              }
+            }
+          },
+          "description": "UpdateExistingProductRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Product not found in profile"
+          }
+        },
+        "summary": "Update existing product balance",
+        "tags": [
+          "Banking Profile"
+        ],
+        "description": "Updates the current balance of an existing product"
+      },
+      "delete": {
+        "operationId": "BankingProfileController.removeProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Product not found in profile"
+          }
+        },
+        "summary": "Remove existing product from profile",
+        "tags": [
+          "Banking Profile"
+        ],
+        "description": "Removes a banking product from user's existing products"
+      }
+    },
+    "/api/v1/banking/profile/history": {
+      "get": {
+        "operationId": "BankingProfileController.getHistory",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "productId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get product history",
+        "tags": [
+          "Banking Profile"
+        ],
+        "description": "Returns history of all product changes (added, removed, updated)"
+      }
+    },
+    "/api/v1/banking/profile/summary": {
+      "get": {
+        "operationId": "BankingProfileController.getFinancialSummary",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get financial summary",
+        "tags": [
+          "Banking Profile"
+        ],
+        "description": "Returns comprehensive financial summary including total assets, liabilities, net worth, and debt ratios"
+      }
+    },
+    "/api/v1/banking/products/": {
+      "get": {
+        "operationId": "BankingProductController.listProducts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "bank",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "List all banking products",
+        "tags": [
+          "Banking Product"
+        ],
+        "description": "Returns list of banking products for dropdown/search. Used for product selection when adding existing products."
+      }
+    },
+    "/api/v1/banking/products/{productId}": {
+      "get": {
+        "operationId": "BankingProductController.getProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        },
+        "summary": "Get product details",
+        "tags": [
+          "Banking Product"
+        ],
+        "description": "Returns full details of a specific banking product"
+      }
+    },
+    "/api/v1/banking/recommendations/": {
+      "get": {
+        "operationId": "BankingProductMatchingController.getRecommendations",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "goalId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productType",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeIneligible",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeFiltered",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "disableTypeFiltering",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get personalized banking product recommendations",
+        "tags": [
+          "Banking Product Matching"
+        ]
+      }
+    },
+    "/api/v1/banking/recommendations/compare": {
+      "post": {
+        "operationId": "BankingProductMatchingController.compareProducts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Compare multiple banking products side-by-side",
+        "tags": [
+          "Banking Product Matching"
+        ]
+      }
+    },
+    "/api/v1/banking/recommendations/switch-nudge": {
+      "get": {
+        "operationId": "BankingProductMatchingController.getSwitchNudge",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get switch-nudge: suggest a lower-fee product from statement account",
+        "tags": [
+          "Banking Product Matching"
+        ]
+      }
+    },
+    "/api/v1/investment/funds/glossary": {
+      "get": {
+        "operationId": "FundController.getGlossary",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get fund term glossary",
+        "tags": [
+          "Fund"
+        ],
+        "description": "Returns definitions and short explanations for fund-related terms (NAV, TER, volatility, etc.) for tooltips and help panels. Aligned with learning/quiz content."
+      }
+    },
+    "/api/v1/investment/funds/": {
+      "get": {
+        "operationId": "FundController.listFunds",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "source",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "assetClass",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "geography",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "shariahCompliant",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeInterpretations",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeFit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "List funds",
+        "tags": [
+          "Fund"
+        ],
+        "description": "Returns paginated list of investment funds (unit trusts) with optional filters. Use includeInterpretations=true for plain-language explanations; includeFit=true (authenticated) for profile fit score and reasons."
+      }
+    },
+    "/api/v1/investment/funds/compare": {
+      "get": {
+        "operationId": "FundController.compareFunds",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "shareClassIds",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeInterpretations",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Compare share classes",
+        "tags": [
+          "Fund"
+        ],
+        "description": "Returns side-by-side comparison for given share class ids (e.g. ?shareClassIds=id1,id2). Use includeInterpretations=true for plain-language explanations."
+      }
+    },
+    "/api/v1/investment/funds/{fundId}": {
+      "get": {
+        "operationId": "FundController.getFund",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fundId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeInterpretations",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "includeFit",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "description": "Fund not found"
+          }
+        },
+        "summary": "Get fund by id",
+        "tags": [
+          "Fund"
+        ],
+        "description": "Returns a single fund with its share classes. Use includeInterpretations=true for plain-language explanations; includeFit=true (authenticated) for profile fit."
+      }
+    },
+    "/api/v1/personas/": {
+      "get": {
+        "operationId": "PersonaController.getAllPersonas",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get all personas (gallery view)",
+        "tags": [
+          "Personas"
+        ],
+        "description": "Returns a list of all available personas with preview information. No authentication required."
+      }
+    },
+    "/api/v1/personas/{slug}": {
+      "get": {
+        "operationId": "PersonaController.getPersonaBySlug",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Get persona detail by slug",
+        "tags": [
+          "Personas"
+        ],
+        "description": "Returns complete persona details including financial profile, goals, banking products, investments, and educational content. No authentication required."
+      }
+    },
+    "/api/v1/resilience/safety-floor": {
+      "get": {
+        "operationId": "ResilienceController.getSafetyFloor",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get Safety Floor products (foundation first)",
+        "tags": [
+          "Resilience"
+        ]
+      }
+    },
+    "/api/v1/resilience/overview": {
+      "get": {
+        "operationId": "ResilienceController.getOverview",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get resilience overview (Safety first + goals) for Tab 1 By Goal",
+        "tags": [
+          "Resilience"
+        ]
+      }
+    },
+    "/api/v1/resilience/simulate": {
+      "post": {
+        "operationId": "ResilienceController.simulate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Run resilience simulator for a product (TVM, maturity cap/floor, optional hedge gain)",
+        "tags": [
+          "Resilience"
+        ]
+      }
+    },
+    "/api/v1/insurance/products/": {
+      "get": {
+        "operationId": "InsuranceProductController.listProducts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "category",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subcategory",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "takaful_only",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "List all insurance products",
+        "tags": [
+          "Insurance Product"
+        ],
+        "description": "Returns paginated list of active insurance products. Use for Tab 2 All Products / view all. Optional filters: category, subcategory, takaful_only, search."
+      }
+    },
+    "/api/v1/insurance/products/compare": {
+      "get": {
+        "operationId": "InsuranceProductController.compareProducts",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "productIds",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Compare 2–4 insurance products",
+        "tags": [
+          "Insurance Product"
+        ],
+        "description": "Returns side-by-side product data for given productIds (e.g. ?productIds=id1,id2,id3)."
+      }
+    },
+    "/api/v1/insurance/products/{productId}": {
+      "get": {
+        "operationId": "InsuranceProductController.getProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get one insurance product by product_id (full detail for detail page)",
+        "tags": [
+          "Insurance Product"
+        ],
+        "description": "Returns full product details including eligibility, hedge compatibility, payout structure, and ranking dimensions for detail page and comparison."
+      }
+    },
+    "/api/v1/insurance/products/{productId}/enrich-from-pds": {
+      "post": {
+        "operationId": "InsuranceProductController.enrichFromPds",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Enrich insurance product from parsed PDS (Product DNA)",
+        "tags": [
+          "Insurance Product"
+        ],
+        "description": "Merges parsed productDna (from POST /documents/parse when documentType is insurance_pds) into the catalog product. Updates fee_structure, ranking_dimensions (investment_risk_rating, transparency_score), and resilience_indicators (condition_precedents). Preserves existing allocation_schedule; merges recurring_fees and exit_costs from DNA."
+      }
+    },
+    "/api/v1/insurance/profile/": {
+      "get": {
+        "operationId": "InsuranceProfileController.getProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get user's insurance profile",
+        "tags": [
+          "Insurance Profile"
+        ],
+        "description": "Returns user's existing insurance policies with product details"
+      }
+    },
+    "/api/v1/insurance/profile/products": {
+      "post": {
+        "operationId": "InsuranceProfileController.addProduct",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExistingInsuranceProductRequest"
+              }
+            }
+          },
+          "description": "AddExistingInsuranceProductRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Product not found or already in profile"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Add existing insurance product to profile",
+        "tags": [
+          "Insurance Profile"
+        ]
+      }
+    },
+    "/api/v1/insurance/profile/products/{productId}": {
+      "put": {
+        "operationId": "InsuranceProfileController.updateProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExistingInsuranceProductRequest"
+              }
+            }
+          },
+          "description": "UpdateExistingInsuranceProductRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Product not in profile"
+          }
+        },
+        "summary": "Update existing insurance product in profile",
+        "tags": [
+          "Insurance Profile"
+        ]
+      },
+      "delete": {
+        "operationId": "InsuranceProfileController.removeProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Product not in profile"
+          }
+        },
+        "summary": "Remove insurance product from profile",
+        "tags": [
+          "Insurance Profile"
+        ]
+      }
+    },
+    "/api/v1/investment/profile/": {
+      "get": {
+        "operationId": "InvestmentProfileController.getProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get user's investment profile",
+        "tags": [
+          "Investment Profile"
+        ],
+        "description": "Returns user's existing fund positions with share class and fund details"
+      }
+    },
+    "/api/v1/investment/profile/positions": {
+      "post": {
+        "operationId": "InvestmentProfileController.addPosition",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExistingPositionRequest"
+              }
+            }
+          },
+          "description": "AddExistingPositionRequest",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "description": "Share class not found or already in profile"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Add existing position to profile",
+        "tags": [
+          "Investment Profile"
+        ]
+      }
+    },
+    "/api/v1/investment/profile/positions/{shareClassId}": {
+      "put": {
+        "operationId": "InvestmentProfileController.updatePosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shareClassId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExistingPositionRequest"
+              }
+            }
+          },
+          "description": "UpdateExistingPositionRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Position not in profile"
+          }
+        },
+        "summary": "Update existing position in profile",
+        "tags": [
+          "Investment Profile"
+        ]
+      },
+      "delete": {
+        "operationId": "InvestmentProfileController.removePosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "shareClassId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponse"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Position not in profile"
+          }
+        },
+        "summary": "Remove position from profile",
+        "tags": [
+          "Investment Profile"
+        ]
+      }
+    },
+    "/api/v1/documents/parse": {
+      "post": {
+        "operationId": "DocumentParseController.parse",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Parse PDF document (insurance PDS or bank statement)",
+        "tags": [
+          "Document Parse"
+        ],
+        "description": "Upload a single PDF. Optional documentType: insurance_pds | bank_statement. If omitted, type is detected from content. Returns { documentType, productDna? } for PDS or { documentType, bankStatement? } for bank statements. PDS: fees, condition precedents, risk/transparency scores. Bank statement: transactions and summary.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "documentType": {
+                    "type": "string",
+                    "enum": [
+                      "insurance_pds",
+                      "bank_statement"
+                    ]
+                  },
+                  "productName": {
+                    "type": "string"
+                  },
+                  "insurer": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/": {
+      "get": {
+        "operationId": "ProfileController.getProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Profile assembled successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get single-view profile (what you have)",
+        "tags": [
+          "Profile"
+        ],
+        "description": "Returns identity, assessment, spending, goals, banking profile, and statement account. No recommendation data."
+      }
+    },
+    "/api/v1/profile/needs": {
+      "get": {
+        "operationId": "ProfileController.getNeedsAndGaps",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Needs and gaps list"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get aggregated needs and gaps (dashboard overview)",
+        "tags": [
+          "Profile"
+        ],
+        "description": "Returns a single list of gap items: onboarding, emergency fund, goal funding (one per goal), banking fee nudge, safety floor, protection per goal. Sorted by severity (high, medium, low)."
+      }
+    },
+    "/api/v1/profile/economic": {
+      "get": {
+        "operationId": "ProfileController.getEconomicProfile",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Economic profile fetched successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get economic profile (employment, dependents, retirement age)",
+        "tags": [
+          "Profile"
+        ],
+        "description": "Returns structural economic profile fields collected post-assessment: employment type, dependents, and optional planned retirement age."
+      },
+      "put": {
+        "operationId": "ProfileController.upsertEconomicProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Economic profile upserted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Upsert economic profile (employment, dependents, retirement age)",
+        "tags": [
+          "Profile"
+        ],
+        "description": "Creates or updates structural economic profile fields post-assessment. Purely additive and does not affect authentication data."
+      }
+    },
+    "/api/v1/events/product-view": {
+      "post": {
+        "operationId": "EventsController.recordProductView",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          },
+          "202": {
+            "description": "Event recorded"
+          },
+          "400": {
+            "description": "Invalid productId or product not found/inactive"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Record a product view (People Like You)",
+        "tags": [
+          "Events"
+        ],
+        "description": "Call when the user clicks 'View Details' on a banking or insurance product. Used to power segment-based insights (e.g. '42% of users in your income band viewed this'). Requires auth."
+      }
+    },
+    "/api/v1/insights/people-like-you": {
+      "get": {
+        "operationId": "InsightsController.getPeopleLikeYouInsights",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "productIds",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productDomain",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "List of insights per product"
+          },
+          "400": {
+            "description": "Missing or invalid productIds / productDomain"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "summary": "Get People Like You insights for products",
+        "tags": [
+          "Insights"
+        ],
+        "description": "Returns segment-based view stats (e.g. '42% of users in your income band viewed this') for the given product IDs. Only includes insights when segment has enough data (segment_size >= 50, viewers >= 10). Requires auth."
+      }
+    },
+    "/api/v1/integrations/unionbank/oauth/connect": {
+      "get": {
+        "operationId": "UnionBankIntegrationController.connect",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          },
+          "302": {
+            "description": "Redirect to UnionBank"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "503": {
+            "description": "UnionBank OAuth not configured"
+          }
+        },
+        "summary": "Start UnionBank OAuth (redirect to authorize URL)",
+        "tags": [
+          "Union Bank Integration"
+        ]
+      }
+    },
+    "/api/v1/integrations/unionbank/oauth/callback": {
+      "get": {
+        "operationId": "UnionBankIntegrationController.callback",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "required": false,
+            "schema": {}
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": {}
+          },
+          {
+            "in": "query",
+            "name": "error",
+            "required": false,
+            "schema": {}
+          },
+          {
+            "in": "query",
+            "name": "error_description",
+            "required": false,
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          },
+          "302": {
+            "description": "Redirect to app or error page"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "summary": "UnionBank OAuth callback (public)",
+        "tags": [
+          "Union Bank Integration"
+        ]
+      }
+    },
+    "/api/v1/partners/ingestion/statements": {
+      "post": {
+        "operationId": "PartnerIngestionController.submit",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartnerSubmitStatementRequestDto"
+              }
+            }
+          },
+          "description": "PartnerSubmitStatementRequestDto",
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "jobId",
+                    "status",
+                    "idempotent"
+                  ],
+                  "properties": {
+                    "jobId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "queued"
+                      ]
+                    },
+                    "idempotent": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Accepted"
+          }
+        },
+        "summary": "Enqueue async ingestion for a canonical bank statement (partner HMAC)",
+        "tags": [
+          "Partner Ingestion"
+        ],
+        "description": "Authenticates via HMAC headers documented in docs/guides/partners/PARTNER_INGESTION_SIGNING.md. Returns 202 with a job id; processing happens asynchronously.",
+        "security": []
+      }
+    },
+    "/api/v1/partners/ingestion/jobs/{jobId}": {
+      "get": {
+        "operationId": "PartnerIngestionController.getJob",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "jobId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jobId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "queued",
+                        "running",
+                        "succeeded",
+                        "failed",
+                        "dead"
+                      ]
+                    },
+                    "partnerId": {
+                      "type": "string"
+                    },
+                    "providerAccountId": {
+                      "type": "string"
+                    },
+                    "statementId": {
+                      "type": "string"
+                    },
+                    "idempotencyKey": {
+                      "type": "string"
+                    },
+                    "attemptCount": {
+                      "type": "integer"
+                    },
+                    "nextRunAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "finishedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "lastError": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Job status"
+          }
+        },
+        "summary": "Poll partner ingestion job status",
+        "tags": [
+          "Partner Ingestion"
+        ],
+        "security": []
+      }
+    },
+    "/api/v1/sessions/refresh": {
+      "post": {
+        "operationId": "SessionController.refreshSession",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Session refreshed successfully"
+          },
+          "401": {
+            "description": "Unauthorized - No active session found"
+          }
+        },
+        "summary": "Refresh session token",
+        "tags": [
+          "Session"
+        ],
+        "description": "Extends session expiration by 24 hours from now"
+      }
+    },
+    "/api/v1/sessions/status": {
+      "get": {
+        "operationId": "SessionController.getSessionStatus",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get session status",
+        "tags": [
+          "Session"
+        ],
+        "description": "Returns current session information"
+      }
+    },
+    "/api/v1/sessions/logout": {
+      "post": {
+        "operationId": "SessionController.logout",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Logout and invalidate current session",
+        "tags": [
+          "Session"
+        ]
+      }
+    },
+    "/api/v1/sessions/logout-all": {
+      "post": {
+        "operationId": "SessionController.logoutAll",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Logout from all devices",
+        "tags": [
+          "Session"
+        ],
+        "description": "Invalidates all active sessions for the current user"
+      }
+    }
+  },
+  "security": [
+    {
+      "type": [
+        "http"
+      ],
+      "scheme": [
+        "bearer"
+      ],
+      "bearerFormat": [
+        "JWT"
+      ]
+    }
+  ]
+}
