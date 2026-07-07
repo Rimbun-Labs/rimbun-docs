@@ -4,7 +4,9 @@ import { fileURLToPath } from "node:url";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(root, "..");
-const source = resolve(projectRoot, "../rimbun-main/docs/openapi.json");
+// Consume the partner-audience contract, not the full internal spec.
+// Regenerate it in the backend first: npm run openapi:public
+const source = resolve(projectRoot, "../rimbun-main/docs/openapi.partner.json");
 const destination = resolve(projectRoot, "public/openapi/rimbun.json");
 
 if (!existsSync(source)) {
