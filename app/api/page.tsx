@@ -17,7 +17,7 @@ export default function ApiReferencePage() {
         </Link>
 
         <nav className="api-nav" aria-label="API reference navigation">
-          <Link href="/">Docs Home</Link>
+          <Link href="/">Docs</Link>
           <Link href="/quickstart">Quickstart</Link>
           <Link href="/openapi/rimbun.json">OpenAPI JSON</Link>
         </nav>
