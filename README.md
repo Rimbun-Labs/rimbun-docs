@@ -1,6 +1,6 @@
 # Rimbun Docs
 
-Developer documentation for Rimbun's API platform.
+Developer documentation for Rimbun's API platform, built with Next.js and Scalar.
 
 This site is intentionally separate from the API runtime. The backend remains the source of truth for the OpenAPI contract, and this docs app renders a versioned copy of that contract.
 
@@ -8,7 +8,7 @@ This site is intentionally separate from the API runtime. The backend remains th
 
 ```text
 /                 Documentation home
-/api              Generated API reference
+/api              Generated API reference rendered by Scalar
 /quickstart       Integration quickstart
 /authentication   Authentication guide
 ```
@@ -42,6 +42,16 @@ The refresh script copies:
 ```
 
 Do not hand-edit endpoint reference pages. Update the backend contract, regenerate OpenAPI in `rimbun-main`, then refresh this artifact.
+
+## Framework
+
+This app uses:
+
+```text
+Next.js               App Router and document pages
+Scalar                OpenAPI reference renderer
+public/openapi/*.json Versioned OpenAPI artifacts
+```
 
 ## Deployment
 
