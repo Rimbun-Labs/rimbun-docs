@@ -7,27 +7,27 @@ export default function HomePage() {
       <TopBar />
       <section className="page-section">
         <div className="hero">
-          <span className="eyebrow">Decisioning layer</span>
-          <h2>Explainable customer intelligence for financial institutions.</h2>
+          <span className="eyebrow">Financial intelligence APIs</span>
+          <h2>Explainable customer signals for financial institutions.</h2>
           <p>
-            Rimbun turns account, transaction, product, and customer signals into structured outputs that banks,
-            partners, and RM tools can consume through APIs.
+            Rimbun turns account, transaction, product, and customer context into ranked actions, reason codes, and
+            summaries that banks and partners can embed in their own channels.
           </p>
         </div>
 
         <div className="process-grid">
-          <ProcessStep title="Data in" body="Partner-provided account, transaction, customer, and product data." />
-          <ProcessStep title="Enrich" body="Normalize formats, classify spend, attach confidence, and detect gaps." />
-          <ProcessStep title="Score" body="Apply versioned rules, product-fit logic, risk flags, and prioritization." />
-          <ProcessStep title="Output" body="Return structured actions, reason codes, summaries, and evidence." />
+          <ProcessStep title="Connect" body="Send customer, account, transaction, and product context." />
+          <ProcessStep title="Classify" body="Normalize records, classify activity, and attach confidence." />
+          <ProcessStep title="Rank" body="Prioritize customer needs, product fit, and attention queues." />
+          <ProcessStep title="Explain" body="Return actions, summaries, reason codes, and supporting evidence." />
         </div>
 
-        <div className="split-section">
+        <div className="feature-band">
           <div>
-            <h3>API first, product visible</h3>
+            <h3>Built for partner channels</h3>
             <p>
-              The API is the integration surface. The product frontend remains where partners can configure access,
-              inspect outputs, and operate workflows when they do not want to build every surface themselves.
+              Use the API to power RM workflows, partner dashboards, and digital experiences without exposing raw
+              decision logic to end users.
             </p>
             <p>
               <Link className="topbar-link" href="/api">
@@ -37,8 +37,8 @@ export default function HomePage() {
           </div>
           <pre className="code-block"><code>{`{
   "customer_id": "cust_123",
-  "priority_bucket": "high_value_upsell",
-  "recommended_action": "home_financing_conversation",
+  "priority": "high",
+  "action": "home_financing_conversation",
   "reason_codes": ["salary_growth", "rent_payments"],
   "confidence": 0.84,
   "summary": "Customer shows rising income and recurring rent payments."
@@ -53,7 +53,7 @@ function TopBar() {
   return (
     <header className="topbar">
       <div>
-        <span className="eyebrow">Financial intelligence APIs</span>
+        <span className="eyebrow">Developer docs</span>
         <h1>Rimbun Developer Docs</h1>
       </div>
       <Link className="topbar-link" href="/openapi/rimbun.json">

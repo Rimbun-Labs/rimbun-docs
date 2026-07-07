@@ -185,6 +185,22 @@ p {
   border-radius: 8px;
 }
 
+.feature-band {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #dbe0d2;
+  border-radius: 8px;
+}
+
+.feature-band > div {
+  display: grid;
+  gap: 12px;
+}
+
 .split-section {
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(360px, 1fr);
@@ -305,6 +321,7 @@ p {
 
   .process-grid,
   .auth-grid,
+  .feature-band,
   .split-section {
     grid-template-columns: 1fr;
   }

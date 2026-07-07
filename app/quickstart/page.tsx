@@ -9,35 +9,35 @@ export default function QuickstartPage() {
     <DocsShell>
       <header className="topbar">
         <div>
-          <span className="eyebrow">Integration path</span>
+          <span className="eyebrow">First request</span>
           <h1>Quickstart</h1>
         </div>
       </header>
 
       <section className="page-section narrow">
-        <h2>Start with one partner credential and one recommendation flow.</h2>
+        <h2>Make your first authenticated request.</h2>
         <p>
-          A production integration should start with server-to-server authentication, stable external IDs, and a narrow
-          first use case that proves the end-to-end data and decision path.
+          Rimbun APIs are designed for server-to-server use. Start with a partner API key, stable customer identifiers,
+          and one recommendation flow before adding broader ingestion and automation.
         </p>
 
         <ol className="steps">
           <li>
             <span>
-              <strong>Create partner credentials</strong>
-              <span>Issue an API key and, for signed ingestion, an HMAC secret for the partner environment.</span>
+              <strong>Get API credentials</strong>
+              <span>Use a partner API key for authenticated server requests.</span>
             </span>
           </li>
           <li>
             <span>
-              <strong>Send customer and financial signals</strong>
-              <span>Ingest normalized transaction, account, and product context with stable external IDs.</span>
+              <strong>Use stable customer IDs</strong>
+              <span>Reference customers with identifiers that remain consistent across requests.</span>
             </span>
           </li>
           <li>
             <span>
-              <strong>Request intelligence output</strong>
-              <span>Read recommendation, prioritization, and explanation outputs through versioned API routes.</span>
+              <strong>Read recommendations</strong>
+              <span>Retrieve actions, explanations, and confidence signals for a customer.</span>
             </span>
           </li>
         </ol>
