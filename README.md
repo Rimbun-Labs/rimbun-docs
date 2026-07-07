@@ -55,7 +55,38 @@ public/openapi/*.json Versioned OpenAPI artifacts
 
 ## Deployment
 
-Recommended URLs:
+This is a server-rendered Next.js app (no `output: "export"`), so it needs a
+Node host — not a static bucket.
+
+The published API reference is read from the **committed** artifact
+`public/openapi/rimbun.json`. The `openapi:refresh` script only runs locally
+(it pulls from a sibling `rimbun-main` checkout that does not exist in CI), so
+commit an up-to-date `public/openapi/rimbun.json` before deploying.
+
+### Render (primary — matches the rest of the stack)
+
+Create a **Web Service** from this repo:
+
+```text
+Runtime         Node
+Build command   npm ci && npm run build
+Start command   npm start
+```
+
+Notes:
+
+- `next start` binds to the `PORT` Render provides; no extra config needed.
+- Do not put `openapi:refresh` in the build command (no `rimbun-main` on the
+  build host). The committed `public/openapi/rimbun.json` is the source.
+- Add a custom domain `docs.rimbun.co` in the Render service settings and point
+  a CNAME at the Render hostname.
+
+### Vercel (alternative — native Next.js)
+
+Import the repo; Vercel auto-detects Next.js (`npm run build`, no start command
+needed). Add `docs.rimbun.co` under the project's Domains tab.
+
+### URLs
 
 ```text
 docs.rimbun.co       -> this app
