@@ -16,7 +16,7 @@ export default function HomePage() {
         </div>
 
         <div className="process-grid">
-          <ProcessStep title="Connect" body="Send customer, account, transaction, and product context." />
+          <ProcessStep title="Connect" body="Ingest statements, assessment scores, goals, and product holdings under your tenant." />
           <ProcessStep title="Classify" body="Normalize records, classify activity, and attach confidence." />
           <ProcessStep title="Rank" body="Prioritize customer needs, product fit, and attention queues." />
           <ProcessStep title="Explain" body="Return actions, summaries, reason codes, and supporting evidence." />

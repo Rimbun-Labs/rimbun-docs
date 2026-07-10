@@ -18,18 +18,25 @@ export default function AuthenticationPage() {
         <h2>Tenant context comes from credentials, not request bodies.</h2>
         <p>
           Rimbun partner APIs use server-side credentials. The backend derives tenant context from the authenticated
-          credential and applies it consistently across request handling, audit, and future tenant-scoped data access.
+          credential and scopes every customer id to that tenant. Operator dashboard routes use Firebase identity mapped
+          to <code>tenant_user</code>; they are not part of the published partner contract.
         </p>
 
         <div className="auth-grid">
           <div className="info-panel">
             <h3>API key</h3>
-            <p>Used for server-to-server reads and partner workflows. Store only the hash in the platform database.</p>
+            <p>
+              Used for partner reads and most writes: recommendations, goals, assessment, banking/insurance/investment
+              profiles, economic profile, and product views. Store only the hash in the platform database.
+            </p>
             <pre className="code-block"><code>{`Authorization: Bearer rbk_live_...`}</code></pre>
           </div>
           <div className="info-panel">
             <h3>HMAC signing</h3>
-            <p>Used where request integrity and replay protection matter, especially ingestion and partner callbacks.</p>
+            <p>
+              Required for statement ingestion (<code>POST /api/v1/partners/ingestion/statements</code>) where request
+              integrity and replay protection matter.
+            </p>
             <pre className="code-block"><code>{`X-Rimbun-Timestamp: 1780000000
 X-Rimbun-Nonce: nonce_123
 X-Rimbun-Signature: sha256=...`}</code></pre>

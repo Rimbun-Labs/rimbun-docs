@@ -38,7 +38,13 @@ npm run openapi:refresh
 The refresh script copies:
 
 ```text
-../rimbun-main/docs/openapi.json
+../rimbun-main/docs/openapi.partner.json
+```
+
+That is the **partner-audience** contract (not the full internal `docs/openapi.json`). Regenerate it in the backend first:
+
+```bash
+cd ../rimbun-main && npm run openapi:public
 ```
 
 Do not hand-edit endpoint reference pages. Update the backend contract, regenerate OpenAPI in `rimbun-main`, then refresh this artifact.

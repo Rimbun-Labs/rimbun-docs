@@ -1,9 +1,193 @@
 {
   "components": {
     "schemas": {
+      "UpdateExistingPositionRequest": {
+        "properties": {
+          "currentValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "units": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyContribution": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AddExistingPositionRequest": {
+        "properties": {
+          "shareClassId": {
+            "type": "string"
+          },
+          "currentValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "units": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyContribution": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "shareClassId"
+        ]
+      },
+      "UpdateExistingInsuranceProductRequest": {
+        "properties": {
+          "sumAssured": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "premiumMonthly": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "cashValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AddExistingInsuranceProductRequest": {
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "sumAssured": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "premiumMonthly": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "cashValue": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "startDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productId"
+        ]
+      },
+      "UpdateExistingProductRequest": {
+        "properties": {
+          "productId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "currentBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "outstandingBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "creditLimit": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "loanAmount": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyPayment": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "lastUsedDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "productId"
+        ]
+      },
+      "AddExistingProductRequest": {
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/ExistingProductInput"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product"
+        ]
+      },
+      "ExistingProductInput": {
+        "properties": {
+          "productId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "currentBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "outstandingBalance": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "creditLimit": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "loanAmount": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "monthlyPayment": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "openedDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          },
+          "lastUsedDate": {
+            "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+            "type": "string"
+          },
+          "metadata": {}
+        },
+        "type": "object",
+        "required": [
+          "productId"
+        ]
+      },
       "PartnerSubmitStatementRequestDto": {
         "properties": {
-          "providerAccountId": {
+          "externalCustomerId": {
             "type": "string"
           },
           "statementId": {
@@ -15,7 +199,7 @@
         },
         "type": "object",
         "required": [
-          "providerAccountId",
+          "externalCustomerId",
           "statementId",
           "bankStatement"
         ]
@@ -215,10 +399,7 @@
                         "dead"
                       ]
                     },
-                    "partnerId": {
-                      "type": "string"
-                    },
-                    "providerAccountId": {
+                    "externalCustomerId": {
                       "type": "string"
                     },
                     "statementId": {
@@ -322,6 +503,723 @@
           "partner"
         ],
         "description": "Partner API. Authenticates with `Authorization: Bearer <api_key>`. `customerId` is the partner's customer identifier (same as `providerAccountId` in ingestion). Tenant scope is resolved from the API key.",
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/assessment": {
+      "put": {
+        "operationId": "PartnerAssessmentController.upsertAssessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Upsert assessment score data for a customer",
+        "tags": [
+          "Partner Assessment"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "description": "Replaces questionnaire capture (`response_groups` / `user_responses`). Stores JSON in `rimbun_tenant.assessment_score`.",
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/goals": {
+      "post": {
+        "operationId": "PartnerGoalsController.createGoal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Create a financial goal for a customer",
+        "tags": [
+          "Partner Goals"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/goals/{goalId}": {
+      "put": {
+        "operationId": "PartnerGoalsController.updateGoal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Update a customer goal",
+        "tags": [
+          "Partner Goals"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "PartnerGoalsController.deleteGoal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "goalId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Soft-delete a customer goal",
+        "tags": [
+          "Partner Goals"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/banking-profile/products": {
+      "post": {
+        "operationId": "PartnerBankingProfileController.addProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExistingProductRequest"
+              }
+            }
+          },
+          "description": "AddExistingProductRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Add an existing banking product to a customer profile",
+        "tags": [
+          "Partner Banking Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/banking-profile/products/{productId}": {
+      "put": {
+        "operationId": "PartnerBankingProfileController.updateProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExistingProductRequest"
+              }
+            }
+          },
+          "description": "UpdateExistingProductRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Update an existing product balance on a customer banking profile",
+        "tags": [
+          "Partner Banking Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "PartnerBankingProfileController.removeProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Remove a product from a customer banking profile",
+        "tags": [
+          "Partner Banking Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/economic-profile": {
+      "put": {
+        "operationId": "PartnerEconomicProfileController.upsertEconomicProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Upsert economic profile for a customer",
+        "tags": [
+          "Partner Economic Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/product-views": {
+      "post": {
+        "operationId": "PartnerProductViewController.recordProductView",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "description": "",
+          "required": false
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Record a product detail view for People Like You insights",
+        "tags": [
+          "Partner Product View"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "description": "Bank sends when a customer views a banking or insurance product. Segment snapshot is derived server-side.",
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/insurance-profile/products": {
+      "post": {
+        "operationId": "PartnerInsuranceProfileController.addProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExistingInsuranceProductRequest"
+              }
+            }
+          },
+          "description": "AddExistingInsuranceProductRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Add an existing insurance policy to a customer profile",
+        "tags": [
+          "Partner Insurance Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/insurance-profile/products/{productId}": {
+      "put": {
+        "operationId": "PartnerInsuranceProfileController.updateProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExistingInsuranceProductRequest"
+              }
+            }
+          },
+          "description": "UpdateExistingInsuranceProductRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Update an insurance policy on a customer profile",
+        "tags": [
+          "Partner Insurance Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "PartnerInsuranceProfileController.removeProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Remove an insurance policy from a customer profile",
+        "tags": [
+          "Partner Insurance Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/investment-profile/positions": {
+      "post": {
+        "operationId": "PartnerInvestmentProfileController.addPosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExistingPositionRequest"
+              }
+            }
+          },
+          "description": "AddExistingPositionRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Add an investment position to a customer profile",
+        "tags": [
+          "Partner Investment Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/investment-profile/positions/{shareClassId}": {
+      "put": {
+        "operationId": "PartnerInvestmentProfileController.updatePosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shareClassId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExistingPositionRequest"
+              }
+            }
+          },
+          "description": "UpdateExistingPositionRequest",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Update an investment position on a customer profile",
+        "tags": [
+          "Partner Investment Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "PartnerInvestmentProfileController.removePosition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "shareClassId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Remove an investment position from a customer profile",
+        "tags": [
+          "Partner Investment Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
         "security": [
           {
             "bearerApiKey": []
