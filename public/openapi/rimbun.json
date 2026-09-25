@@ -1,6 +1,323 @@
 {
   "components": {
     "schemas": {
+      "UpsertBusinessPlanEventDto": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "eventType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "expectedDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "expectedEndDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "recurrence": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "scenario": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "required": [
+          "eventType",
+          "title"
+        ]
+      },
+      "UpsertFinancingFacilityDto": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "facilityType": {
+            "type": "string"
+          },
+          "lenderName": {
+            "type": "string"
+          },
+          "originalAmount": {
+            "type": "number"
+          },
+          "outstandingPrincipal": {
+            "type": "number"
+          },
+          "limitAmount": {
+            "type": "number"
+          },
+          "availableAmount": {
+            "type": "number"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "interestRepresentation": {
+            "type": "string"
+          },
+          "startDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "maturityDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "repaymentFrequency": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "schedules": {
+            "items": {
+              "$ref": "#/components/schemas/UpsertFinancingScheduleDto"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object",
+        "required": [
+          "facilityType",
+          "currency"
+        ]
+      },
+      "UpsertFinancingScheduleDto": {
+        "properties": {
+          "dueDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "paymentType": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dueDate",
+          "amount",
+          "currency"
+        ]
+      },
+      "UpsertBusinessObligationDto": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "obligationType": {
+            "type": "string"
+          },
+          "counterpartyId": {
+            "type": "string"
+          },
+          "dueDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "recurrence": {
+            "type": "string"
+          },
+          "paymentFlexibility": {
+            "type": "string",
+            "enum": [
+              "fixed",
+              "negotiable",
+              "unknown"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "required": [
+          "obligationType",
+          "amount",
+          "currency"
+        ]
+      },
+      "UpsertBusinessReceivableDto": {
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "counterpartyId": {
+            "type": "string"
+          },
+          "issueDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "dueDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "originalAmount": {
+            "type": "number"
+          },
+          "outstandingAmount": {
+            "type": "number"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "expectedPaymentDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "required": [
+          "originalAmount",
+          "outstandingAmount",
+          "currency"
+        ]
+      },
+      "CorrectCustomerTypeRequestDto": {
+        "properties": {
+          "customerType": {
+            "type": "string",
+            "enum": [
+              "individual",
+              "business"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "customerType"
+        ]
+      },
+      "UpsertBusinessProfileRequestDto": {
+        "properties": {
+          "legalName": {
+            "maxLength": 500,
+            "type": "string"
+          },
+          "tradingName": {
+            "maxLength": 500,
+            "type": "string"
+          },
+          "registrationNumber": {
+            "maxLength": 128,
+            "type": "string"
+          },
+          "legalForm": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "industryCode": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "industryLabel": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "incorporationDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "countryCode": {
+            "pattern": "^[A-Z]{2}$",
+            "type": "string"
+          },
+          "baseCurrency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "fiscalYearEndMonth": {
+            "maximum": 12,
+            "type": "integer",
+            "minimum": 1
+          },
+          "employeeBand": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "annualRevenueBand": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        },
+        "type": "object",
+        "required": [
+          "legalName",
+          "baseCurrency"
+        ]
+      },
       "UpdateExistingPositionRequest": {
         "properties": {
           "currentValue": {
@@ -188,52 +505,153 @@
       "PartnerSubmitStatementRequestDto": {
         "properties": {
           "externalCustomerId": {
+            "minLength": 1,
             "type": "string"
+          },
+          "customerType": {
+            "type": "string",
+            "enum": [
+              "individual",
+              "business"
+            ]
           },
           "statementId": {
+            "minLength": 1,
             "type": "string"
           },
-          "bankStatement": {
-            "$ref": "#/components/schemas/BankStatementResponseDtoIngest"
+          "account": {
+            "$ref": "#/components/schemas/PartnerStatementAccountDto",
+            "not": {
+              "type": "null"
+            }
+          },
+          "statement": {
+            "$ref": "#/components/schemas/PartnerStatementSummaryDto",
+            "not": {
+              "type": "null"
+            }
+          },
+          "transactions": {
+            "items": {
+              "$ref": "#/components/schemas/PartnerStatementTransactionDto"
+            },
+            "type": "array",
+            "minItems": 1
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/PartnerStatementProvenanceDto"
           }
         },
         "type": "object",
         "required": [
           "externalCustomerId",
+          "customerType",
           "statementId",
-          "bankStatement"
+          "account",
+          "statement",
+          "transactions"
         ]
       },
-      "BankStatementResponseDtoIngest": {
+      "PartnerStatementProvenanceDto": {
         "properties": {
-          "transactions": {
-            "items": {
-              "$ref": "#/components/schemas/BankStatementTransactionDtoIngest"
-            },
-            "type": "array"
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "bank_api",
+              "pdf_extraction",
+              "manual"
+            ]
           },
-          "summary": {
-            "$ref": "#/components/schemas/BankStatementSummaryDtoIngest"
-          },
-          "accountIdentifier": {
-            "type": "object"
-          },
-          "fees": {
-            "type": "object"
+          "extractionConfidence": {
+            "maximum": 1,
+            "type": "number",
+            "minimum": 0
           }
         },
         "type": "object",
         "required": [
-          "transactions"
+          "sourceType"
         ]
       },
-      "BankStatementSummaryDtoIngest": {
+      "PartnerStatementTransactionDto": {
         "properties": {
-          "periodStart": {
+          "externalTransactionId": {
             "type": "string"
           },
-          "periodEnd": {
+          "transactionDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string",
+            "format": "date"
+          },
+          "postedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valueDate": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "minLength": 1,
             "type": "string"
+          },
+          "amount": {
+            "exclusiveMinimum": 0,
+            "type": "number"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "credit",
+              "debit"
+            ]
+          },
+          "runningBalance": {
+            "type": "number"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          },
+          "counterpartyName": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "transactionChannel": {
+            "type": "string"
+          },
+          "transactionStatus": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "posted",
+              "reversed",
+              "failed"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "transactionDate",
+          "description",
+          "amount",
+          "direction"
+        ]
+      },
+      "PartnerStatementSummaryDto": {
+        "properties": {
+          "periodStart": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string",
+            "format": "date"
           },
           "openingBalance": {
             "type": "number"
@@ -242,53 +660,50 @@
             "type": "number"
           },
           "totalCredits": {
+            "minimum": 0,
             "type": "number"
           },
           "totalDebits": {
+            "minimum": 0,
             "type": "number"
-          },
-          "currency": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "BankStatementTransactionDtoIngest": {
-        "properties": {
-          "date": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "credit",
-              "debit"
-            ]
-          },
-          "confidence": {
-            "type": "number"
-          },
-          "source": {
-            "type": "string",
-            "enum": [
-              "explicit",
-              "inferred",
-              "not_disclosed"
-            ]
           }
         },
         "type": "object",
         "required": [
-          "date",
-          "description",
-          "amount",
-          "type"
+          "periodStart",
+          "periodEnd"
+        ]
+      },
+      "PartnerStatementAccountDto": {
+        "properties": {
+          "externalAccountId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string"
+          },
+          "institutionName": {
+            "type": "string"
+          },
+          "accountType": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "accountHolderName": {
+            "type": "string"
+          },
+          "currency": {
+            "pattern": "^[A-Z]{3}$",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "externalAccountId",
+          "currency"
         ]
       }
     },
@@ -1216,6 +1631,424 @@
         "summary": "Remove an investment position from a customer profile",
         "tags": [
           "Partner Investment Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/business-profile": {
+      "put": {
+        "operationId": "PartnerBusinessProfileController.upsertProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertBusinessProfileRequestDto"
+              }
+            }
+          },
+          "description": "UpsertBusinessProfileRequestDto",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Create or update a business profile for a business customer",
+        "tags": [
+          "Partner Business Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/customer-type": {
+      "put": {
+        "operationId": "PartnerBusinessProfileController.correctType",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorrectCustomerTypeRequestDto"
+              }
+            }
+          },
+          "description": "CorrectCustomerTypeRequestDto",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Administrative correction of customer type (explicit only)",
+        "tags": [
+          "Partner Business Profile"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/receivables": {
+      "get": {
+        "operationId": "PartnerBusinessDomainController.receivables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Receivables",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "PartnerBusinessDomainController.upsertReceivable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertBusinessReceivableDto"
+              }
+            }
+          },
+          "description": "UpsertBusinessReceivableDto",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Upsert receivable",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/obligations": {
+      "get": {
+        "operationId": "PartnerBusinessDomainController.obligations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Obligations",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "PartnerBusinessDomainController.upsertObligation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertBusinessObligationDto"
+              }
+            }
+          },
+          "description": "UpsertBusinessObligationDto",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Upsert obligation",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/facilities": {
+      "get": {
+        "operationId": "PartnerBusinessDomainController.facilities",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Facilities",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "PartnerBusinessDomainController.upsertFacility",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertFinancingFacilityDto"
+              }
+            }
+          },
+          "description": "UpsertFinancingFacilityDto",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Upsert facility",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/partners/customers/{customerId}/plan-events": {
+      "get": {
+        "operationId": "PartnerBusinessDomainController.planEvents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Plan events",
+        "tags": [
+          "Partner Business Domain"
+        ],
+        "x-audience": [
+          "partner"
+        ],
+        "security": [
+          {
+            "bearerApiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "PartnerBusinessDomainController.upsertPlanEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "schema": {
+              "pattern": "[^\\/#\\?]+?",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertBusinessPlanEventDto"
+              }
+            }
+          },
+          "description": "UpsertBusinessPlanEventDto",
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Upsert plan event",
+        "tags": [
+          "Partner Business Domain"
         ],
         "x-audience": [
           "partner"
