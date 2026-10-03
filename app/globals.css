@@ -287,13 +287,136 @@ p {
 }
 
 .api-page {
-  min-height: 100vh;
-  background: #101010;
+  background: #f6f7f3;
 }
 
-.api-reference-shell {
-  min-height: calc(100vh - 72px);
-  background: #101010;
+.api-reference {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+  max-width: 1180px;
+  padding: 32px 42px 80px;
+}
+
+.api-sidebar {
+  position: sticky;
+  top: 88px;
+  display: grid;
+  gap: 4px;
+  max-height: calc(100vh - 104px);
+  overflow: auto;
+  padding-right: 8px;
+}
+
+.api-sidebar a {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 8px;
+  color: #2b3a33;
+  font-size: 13px;
+  line-height: 1.35;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.api-sidebar a:hover {
+  background: #e7eadc;
+}
+
+.api-sidebar-tag {
+  margin-top: 14px;
+  font-weight: 800;
+}
+
+.api-content {
+  display: grid;
+  gap: 28px;
+  min-width: 0;
+}
+
+.api-content section,
+.api-content article {
+  scroll-margin-top: 96px;
+}
+
+.api-content article {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #dbe0d2;
+  border-radius: 8px;
+}
+
+.api-content h2 {
+  font-size: 32px;
+}
+
+.api-content h4 {
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.api-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.api-method {
+  flex: 0 0 auto;
+  padding: 2px 6px;
+  color: #17231d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  background: #dce318;
+  border-radius: 4px;
+}
+
+.api-method.post {
+  background: #d7efe2;
+}
+
+.api-method.put {
+  background: #efe6c8;
+}
+
+.api-method.delete {
+  background: #f3d6d2;
+}
+
+.api-fields {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.api-fields th,
+.api-fields td {
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #e3e7db;
+}
+
+.api-fields th {
+  color: #59675d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.api-fields td span {
+  display: block;
+  margin-top: 4px;
+  color: #59675d;
+}
+
+.api-response {
+  display: grid;
+  gap: 8px;
 }
 
 @media (max-width: 980px) {
@@ -326,8 +449,14 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .api-reference-shell {
-    min-height: 100vh;
+  .api-reference {
+    grid-template-columns: 1fr;
+    padding: 24px 20px 56px;
+  }
+
+  .api-sidebar {
+    position: static;
+    max-height: none;
   }
 }
 

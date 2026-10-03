@@ -1,6 +1,6 @@
 # Rimbun Docs
 
-Developer documentation for Rimbun's API platform, built with Next.js and Scalar.
+Developer documentation for Rimbun's API platform, built with Next.js.
 
 This site is intentionally separate from the API runtime. The backend remains the source of truth for the OpenAPI contract, and this docs app renders a versioned copy of that contract.
 
@@ -8,7 +8,7 @@ This site is intentionally separate from the API runtime. The backend remains th
 
 ```text
 /                 Documentation home
-/api              Generated API reference rendered by Scalar
+/api              API reference written into the page at build time
 /quickstart       Integration quickstart
 /authentication   Authentication guide
 ```
@@ -23,7 +23,7 @@ npm run dev
 
 ## OpenAPI Contract
 
-The rendered API reference reads:
+The API reference is generated from:
 
 ```text
 public/openapi/rimbun.json
@@ -54,38 +54,25 @@ Do not hand-edit endpoint reference pages. Update the backend contract, regenera
 This app uses:
 
 ```text
-Next.js               App Router and document pages
-Scalar                OpenAPI reference renderer
-public/openapi/*.json Versioned OpenAPI artifacts
+Next.js               App Router, static export
+public/openapi/*.json Versioned OpenAPI artifacts, rendered into /api HTML at build
 ```
 
 ## Deployment
 
-This is a server-rendered Next.js app (no `output: "export"`), so it needs a
-Node host — not a static bucket.
+`next.config.ts` sets `output: "export"`. `npm run build` writes the site,
+including the API reference, to `out/`. Publish that folder as static files.
 
-The published API reference is read from the **committed** artifact
-`public/openapi/rimbun.json`. The `openapi:refresh` script only runs locally
-(it pulls from a sibling `rimbun-main` checkout that does not exist in CI), so
-commit an up-to-date `public/openapi/rimbun.json` before deploying.
+The API page is built from the committed artifact `public/openapi/rimbun.json`.
+The `openapi:refresh` script only runs locally (it pulls from a sibling
+`rimbun-main` checkout that does not exist in CI), so commit an up-to-date
+`public/openapi/rimbun.json` before deploying. Do not put `openapi:refresh` in
+the build command.
 
-### Render (primary — matches the rest of the stack)
+### Render
 
-Create a **Web Service** from this repo:
-
-```text
-Runtime         Node
-Build command   npm ci && npm run build
-Start command   npm start
-```
-
-Notes:
-
-- `next start` binds to the `PORT` Render provides; no extra config needed.
-- Do not put `openapi:refresh` in the build command (no `rimbun-main` on the
-  build host). The committed `public/openapi/rimbun.json` is the source.
-- Add a custom domain `docs.rimbun.co` in the Render service settings and point
-  a CNAME at the Render hostname.
+Publish the `out/` directory as a static site. Point `docs.rimbun.co` at that
+host.
 
 ### Vercel (alternative — native Next.js)
 

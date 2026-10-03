@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "@scalar/api-reference-react/style.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
